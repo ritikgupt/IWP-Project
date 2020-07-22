@@ -1,0 +1,23 @@
+{
+  "name": "IWP_PROJECT",
+  "version": "1.0.0",
+  "description": "* Ritik Gupta(18BCE0154)\r  * Ayush Sharma(18BCE0172)\r  * Shashank Rajoria(18BCE2231)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "app-root-path": "^3.0.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "express-sanitizer": "^1.0.5",
+    "http-errors": "^1.8.0",
+    "morgan": "^1.10.0",
+    "winston": "^3.3.3"
+  }
+}
