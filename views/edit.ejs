@@ -1,4 +1,4 @@
-<%include ./partials/header%>
+<%-include('./partials/header')%>
 <div class="ui main text container segment">
     <div class="ui huge header">Edit <%=shop.title%></div>
 <form class="ui form" action="/<%=shop._id%>?_method=PUT" method="POST">
@@ -21,4 +21,4 @@
             visibility:hidden;
         }
     </style>
-<%include ./partials/footer%>
+<%-include('./partials/footer.ejs')%>

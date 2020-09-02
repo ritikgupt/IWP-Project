@@ -1,4 +1,4 @@
-<%include ./partials/header %>
+<%-include('./partials/header')%>
 
 <h1><center>Mongo file uploads</center></h1>
 <form action="/shops/upload" method="POST" enctype="multipart/form-data">
@@ -7,5 +7,4 @@
 <label for="file">Choose File</label>
 <button class="ui button" type="submit">Login</button>
 </form>
-
-<% include ./partials/footer%>
+<%-include('./partials/footer.ejs')%>
