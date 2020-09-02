@@ -9,6 +9,7 @@ const User = require('../models/user');
 const cloudinary = require('../handlers/cloudinary');
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const jwt = require("jsonwebtoken");
 
 function isLoggedIn(req, res, next){
   if (req.isAuthenticated()){
@@ -26,14 +27,14 @@ router.get('/shops/new', isLoggedIn, async(req, res) => {
     res.json({message: e});
   }
 });
-router.get('/shops/sign', async(req, res) => {
+router.get('/sign', async(req, res) => {
   try {
     res.render('sign');
   } catch (e){
     res.json({message: e});
   }
 });
-router.post('/shops/sign', async(req, res) => {
+router.post('/sign', async(req, res) => {
   try {
     await bcrypt.genSalt(saltRounds,async (err, salt)=> {
       bcrypt.hash(req.body.password, salt, async (err, hash) =>{
@@ -42,24 +43,49 @@ router.post('/shops/sign', async(req, res) => {
         
       });
     });
-    return res.redirect('/shops/login')
+    return res.redirect('/login')
     
   } catch (e){
     console.log(e);
     res.json({message: e});
   }
 });
-router.get('/shops/login', async(req, res) => {
+router.get('/login', async(req, res) => {
   try {
     res.render('login');
   } catch (e) {
     res.json({message: e});
   }
 });
-router.post('/shops/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/shops/login',
-}));
+router.post("/login", async (req, res) => {
+  try {
+    const username = req.body.username;
+    const a = await User.findOne({username:username})
+    console.log(a)
+    if (a.length <= 0) {
+      res.json({ message: "Incorrect Username" });
+    } else {
+      const match = await bcrypt.compare(req.body.password, a.password);
+      if (match) {
+        const token = await jwt.sign(
+          {
+            email: a.email,
+            username: a.username,
+          },
+          "apna_bazaar",
+          {
+            expiresIn: "1h",
+          }
+        );
+        res.cookie("token", token);
+        res.redirect("/");
+      } else res.json({ message: "Incorrect Password" });
+    }
+  } catch (e) {
+    console.log(e)
+    res.json({ message: "some error occured" });
+  }
+});
 
 
 router.get('/:id/edit', isLoggedIn, async(req, res) => {
