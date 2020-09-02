@@ -5,8 +5,7 @@ const UserSchema = new c.Schema({
   password: String,
   email: String,
   mobile: String,
-  room: String,
-  reg_num: String,
+  address: String,
 });
 UserSchema.plugin(h);
 module.exports = c.model('User', UserSchema);

@@ -7,7 +7,8 @@ const multer = require('multer');
 const upload = multer({dest: 'uploads/'});
 const User = require('../models/user');
 const cloudinary = require('../handlers/cloudinary');
-
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 function isLoggedIn(req, res, next){
   if (req.isAuthenticated()){
@@ -34,16 +35,15 @@ router.get('/shops/sign', async(req, res) => {
 });
 router.post('/shops/sign', async(req, res) => {
   try {
-    await User.register(new User({username: req.body.username, email: req.body.email, room: req.body.room, mobile: req.body.mobile, reg_num: req.body.reg_num}), req.body.password, (err, user) => {
-      if (err) {
-        console.log(err);
-        res.redirect('/');
-      } else {
-        passport.authenticate('local')(req, res, () => {
-          res.redirect('/');
-        });
-      }
+    await bcrypt.genSalt(saltRounds,async (err, salt)=> {
+      bcrypt.hash(req.body.password, salt, async (err, hash) =>{
+        req.body.password=hash
+        await User.create(req.body)
+        
+      });
     });
+    return res.redirect('/shops/login')
+    
   } catch (e){
     console.log(e);
     res.json({message: e});

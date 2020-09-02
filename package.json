@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "app-root-path": "^3.0.0",
+    "bcrypt": "^5.0.0",
     "cloudinary": "^1.23.0",
     "compression": "^1.7.4",
     "cookie-session": "^1.4.0",
