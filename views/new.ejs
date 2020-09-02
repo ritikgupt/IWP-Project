@@ -1,0 +1,49 @@
+<%include ./partials/header%>
+<div class="ui main text container segment">
+    <div class="ui huge header">New Item</div>
+    <form class="ui form" action="/" method="POST" enctype="multipart/form-data">
+        <div class="field">
+            <label>Title</label>
+            <input type="text" name="shop[title]" placeholder="title">
+        </div>
+        <!-- <div class="field">
+            <label>Image</label>
+            <input type="text" name="shop[image]" placeholder="image">
+        </div> -->
+        <div class="field">
+            <label>Item_Type</label>
+            <select class="ui search dropdown" name="shop[item]">
+              <option value="Book">Books</option>
+              <option value="Mattress">Mattress</option>
+              <option value="Sport">Sports_Equipments</option>
+              <option value="Other">Others</option>
+              <option value="Cycle">Bicycles</option>
+              </select>
+        </div>
+
+            <div class="field">
+                <label>Description</label>
+                <textarea name="shop[body]"></textarea>
+            </div>
+        <div class="field">
+                <label>Posted By</label>
+                <input type="text" name="shop[username]" value="<%=currentUser.username%>">
+            </div>
+            <div class="field">
+                    <label>Upload Image</label>
+                    <input type="file" name="shop[image]">
+                </div>    
+        <div class="field">
+            <input type="text" id="ac" name="shop[id]" value="<%=currentUser.id%>">
+        </div>
+        <button class="ui button" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+</div>
+<style>
+#ac{
+        visibility:hidden;
+    }
+</style>
+<%include ./partials/footer%>

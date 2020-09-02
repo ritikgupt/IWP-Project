@@ -1,0 +1,32 @@
+<%include ./partials/header%>
+<div class="ui main text container segment">
+    <div class="ui huge header"><%=shop.title%></div>
+    <div class="ui attached">
+        <div class="item">
+            <img class="ui centered rounded image" src="<%=shop.image%>">
+            <div class="description">
+                <p><%=shop.body%></p>
+                <h3>Posted by:<%=shop.username%></h3>
+                <%console.log("df")%>
+                <%console.log(shop.id)%>
+                <%console.log("df")%>
+                <%console.log(currentUser.id)%>
+                <%console.log("df")%>
+            </div>
+            <%if(shop.id==(currentUser.id)|| currentUser.reg_num=='18BCE01504'){%>
+                <a class="ui blue basic button"href="/<%=shop._id%>/edit">Edit details</a>
+                <a class="ui blue basic button"href="/<%=shop._id%>/change">Change Photo</a>
+                <form action="/<%=shop._id%>?_method=Delete" method="POST">
+                    <button class="ui red basic button">Delete</button>
+                </form>      
+            <%}else{%>
+                <a class="ui blue basic button" href="/<%=shop._id%>/contact">Seller Details</a>
+                <%}%>
+        </div>
+</div>
+<style>
+   body {
+  padding-top:6%;
+   }
+   </style>
+</div>
