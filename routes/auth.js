@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
 const Shop = require('../models/shop');
 const Profile = require('../models/profile');
 const multer = require('multer');
@@ -10,20 +9,15 @@ const cloudinary = require('../handlers/cloudinary');
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
+const auth = require('../middleware/auth');
 
-function isLoggedIn(req, res, next){
-  if (req.isAuthenticated()){
-    return next();
-  } else {
-    res.redirect('/shops/login');
-  }
-}
 
-router.get('/shops/new', isLoggedIn, async(req, res) => {
+
+router.get('/shops/new', auth, async(req, res) => {
   try {
-    console.log(req.user);
-    res.render('new', {currentUser: req.user});
+    res.render('new', {currentUser: req.userData.username});
   } catch (e){
+    console.log(e)
     res.json({message: e});
   }
 });
@@ -61,7 +55,6 @@ router.post("/login", async (req, res) => {
   try {
     const username = req.body.username;
     const a = await User.findOne({username:username})
-    console.log(a)
     if (a.length <= 0) {
       res.json({ message: "Incorrect Username" });
     } else {
@@ -77,6 +70,7 @@ router.post("/login", async (req, res) => {
             expiresIn: "1h",
           }
         );
+        console.log(token)
         res.cookie("token", token);
         res.redirect("/");
       } else res.json({ message: "Incorrect Password" });
@@ -88,13 +82,13 @@ router.post("/login", async (req, res) => {
 });
 
 
-router.get('/:id/edit', isLoggedIn, async(req, res) => {
+router.get('/:id/edit', auth, async(req, res) => {
   try {
     await Shop.findById(req.params.id, (err, foundShop) => {
       if (err){
         console.log('Error');
       } else {
-        res.render('edit', {shop: foundShop, currentUser: req.user});
+        res.render('edit', {shop: foundShop, currentUser: req.userData.username});
       }
     });
   } catch (e){
@@ -115,7 +109,7 @@ router.put('/:id', async(req, res) => {
     res.json({message: e});
   }
 });
-router.delete('/:id', isLoggedIn, async(req, res) => {
+router.delete('/:id', auth, async(req, res) => {
   try {
     await Shop.findByIdAndRemove(req.params.id, (err) => {
       if (err){
@@ -128,13 +122,13 @@ router.delete('/:id', isLoggedIn, async(req, res) => {
     res.json({message: e});
   }
 });
-router.get('/shops/profile/:id', isLoggedIn, async(req, res) => {
+router.get('/shops/profile/:id', auth, async(req, res) => {
   try {
     await Profile.find({}, (err, profiles) => {
       if (err)
         console.log('Error!');
       else
-        res.render('profile', {currentUser: req.user});
+        res.render('profile', {currentUser: req.userData.username});
     // res.redirect("/shops/editprofile/"+ req.user.id)
     });
   } catch (e){
@@ -157,7 +151,7 @@ router.get('/shops/editprofile/:id', async(req, res) => {
       } else {
         console.log('Found!!!');
         // console.log(foundUser);
-        res.render('editprofile', {user: foundUser, currentUser: req.user});
+        res.render('editprofile', {user: foundUser, currentUser: req.userData.username});
       }
     });
   } catch (e) {
@@ -174,33 +168,33 @@ router.post('/shops/profile/:id', async(req, res, next) => {
   }
 });
 
-router.get('/:id/contact', isLoggedIn, async(req, res) => {
+router.get('/:id/contact', auth, async(req, res) => {
   try {
     await Shop.findById(req.params.id, (err, foundShop) => {
       if (err){
         console.log('Error');
       } else {
-        res.render('contact', {shop: foundShop, currentUser: req.user});
+        res.render('contact', {shop: foundShop, currentUser: req.userData.username});
       }
     });
   } catch (e) {
     res.json({message: e});
   }
 });
-router.get('/shops/profile/:id/newpassword', isLoggedIn, async(req, res) => {
+router.get('/shops/profile/:id/newpassword', auth, async(req, res) => {
   try {
-    res.render('newpassword', {currentUser: req.user});
+    res.render('newpassword', {currentUser: req.userData.username});
   } catch (e) {
     res.json({message: e});
   }
 });
-router.get('/:id/change', isLoggedIn, async(req, res) => {
+router.get('/:id/change', auth, async(req, res) => {
   try {
     await Shop.findById(req.params.id, (err, foundShop) => {
       if (err){
         console.log('Error');
       } else {
-        res.render('change', {shop: foundShop, currentUser: req.user});
+        res.render('change', {shop: foundShop, currentUser: req.userData.username});
       }
     });
   } catch (e) {
@@ -232,13 +226,14 @@ router.get('/shops/logout', async(req, res) => {
   res.redirect('/');
 });
 
-router.get('/:id', isLoggedIn, async(req, res) => {
+router.get('/:id', auth, async(req, res) => {
   try {
+    console.log(req.userData.username)
     await Shop.findById(req.params.id, (err, foundShop) => {
       if (err){
         res.redirect('/');
       } else {
-        res.render('show', {shop: foundShop, currentUser: req.user});
+        res.render('show', {shop: foundShop, currentUser: req.userData.username});
       }
     });
   } catch (e){

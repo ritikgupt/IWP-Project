@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Shop = require('../models/shop');
-
+const auth = require("../middleware/auth");
 router.get('/book', async(req, res) => {
   try {
     await Shop.find({}, (err, shops) => {

@@ -7,11 +7,7 @@
             <div class="description">
                 <p><%=shop.body%></p>
                 <h3>Posted by:<%=shop.username%></h3>
-                <%console.log("df")%>
-                <%console.log(shop.id)%>
-                <%console.log("df")%>
-                <%console.log(currentUser.id)%>
-                <%console.log("df")%>
+               
             </div>
             <%if(shop.id==(currentUser.id)|| currentUser.reg_num=='18BCE01504'){%>
                 <a class="ui blue basic button"href="/<%=shop._id%>/edit">Edit details</a>

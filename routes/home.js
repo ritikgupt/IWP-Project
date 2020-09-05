@@ -4,7 +4,7 @@ const Shop = require('../models/shop');
 const multer = require('multer');
 const upload = multer({dest: 'uploads/'});
 const cloudinary = require('../handlers/cloudinary');
-
+const auth = require("../middleware/auth");
 router.get('/', async(req, res) => {
   try {
     await Shop.find({}, (err, shops) => {
