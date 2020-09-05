@@ -2,11 +2,10 @@ const jwt = require('jsonwebtoken');
 const JwtAuth = (req, res, next) => {
   try {
     const token = req.cookies.token;
-    console.log(token)
     const decode = jwt.verify(token, "apna_bazaar");
     req.userData = decode;
-    console.log(decode)
     next();
+    console.log(decode)
   } catch (e){
     console.log(e)
     res.redirect('/login');

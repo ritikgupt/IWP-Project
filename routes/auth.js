@@ -55,6 +55,7 @@ router.post("/login", async (req, res) => {
   try {
     const username = req.body.username;
     const a = await User.findOne({username:username})
+    console.log(a)
     if (a.length <= 0) {
       res.json({ message: "Incorrect Username" });
     } else {
@@ -64,13 +65,13 @@ router.post("/login", async (req, res) => {
           {
             email: a.email,
             username: a.username,
+            mobile:a.mobile,
           },
           "apna_bazaar",
           {
-            expiresIn: "1h",
+           
           }
         );
-        console.log(token)
         res.cookie("token", token);
         res.redirect("/");
       } else res.json({ message: "Incorrect Password" });
@@ -223,6 +224,7 @@ router.put('/:id/change', upload.single('shop[image]'), async(req, res) => {
 
 router.get('/shops/logout', async(req, res) => {
   await req.logout();
+  res.clearCookie('token')
   res.redirect('/');
 });
 

@@ -14,7 +14,8 @@
                 <a href="/login" class="item">Login</a>
                 <a href="/sign" class="item">SignIn</a>
                 <%} else {%>
-                    <a href="#" class="item">Signed In As <%=currentUser.username%></a>
+                    <a href="#" class="item">Signed In As <%=currentUser%></a>
+                    <a href="/shops/logout" class="item">Logout</a>
                     <a href="/shops/profile/<%=currentUser._id%>" class="item">Profile</a>
                     <a href="/shops/new" class="item">Add New Item</a>
                     <%}%>
