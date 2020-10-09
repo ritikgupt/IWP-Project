@@ -7,7 +7,6 @@ const cloudinary = require('../handlers/cloudinary');
 const auth = require("../middleware/auth");
 router.get('/', auth, async(req, res) => {
   try {
-    console.log(req.userData)
     await Shop.find({}, (err, shops) => {
       if (err){
         console.log('Error!');
@@ -22,9 +21,6 @@ router.get('/', auth, async(req, res) => {
 router.post('/', upload.single('image'), async(req, res) => {
   try {
     await cloudinary.v2.uploader.upload(req.file.path, {overwrite: true}, (err, result) => {
-      console.log('Error:', err);
-      console.log('Result:', result);
-      console.log(req.body)
       Shop.create({
         title: req.body.title,
         image: result.secure_url,
@@ -32,6 +28,7 @@ router.post('/', upload.single('image'), async(req, res) => {
         id: req.body.id,
         username: req.body.username,
         item: req.body.item,
+        userid:req.body.userid
       });
     });
     res.redirect('/shops/new');

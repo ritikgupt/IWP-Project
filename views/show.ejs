@@ -9,7 +9,10 @@
                 <h3>Posted by:<%=shop.username%></h3>
                
             </div>
-            <%if(shop.id==(currentUser.id)|| currentUser.reg_num=='18BCE01504'){%>
+           
+                        <%console.log(currentUser)%>
+            <%if(shop.userid==(currentUser.id)){%>
+   
                 <a class="ui blue basic button"href="/<%=shop._id%>/edit">Edit details</a>
                 <a class="ui blue basic button"href="/<%=shop._id%>/change">Change Photo</a>
                 <form action="/<%=shop._id%>?_method=Delete" method="POST">

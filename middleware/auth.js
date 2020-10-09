@@ -5,7 +5,6 @@ const JwtAuth = (req, res, next) => {
     const decode = jwt.verify(token, "apna_bazaar");
     req.userData = decode;
     next();
-    console.log(decode)
   } catch (e){
     console.log(e)
     res.redirect('/login');

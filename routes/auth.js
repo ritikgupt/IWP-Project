@@ -15,9 +15,9 @@ const auth = require('../middleware/auth');
 
 router.get('/shops/new', auth, async(req, res) => {
   try {
-    res.render('new', {currentUser: req.userData.username});
+    res.render('new', {currentUser: req.userData});
   } catch (e){
-    console.log(e)
+    
     res.json({message: e});
   }
 });
@@ -33,6 +33,7 @@ router.post('/sign', async(req, res) => {
     await bcrypt.genSalt(saltRounds,async (err, salt)=> {
       bcrypt.hash(req.body.password, salt, async (err, hash) =>{
         req.body.password=hash
+       
         await User.create(req.body)
         
       });
@@ -40,7 +41,7 @@ router.post('/sign', async(req, res) => {
     return res.redirect('/login')
     
   } catch (e){
-    console.log(e);
+   
     res.json({message: e});
   }
 });
@@ -55,7 +56,6 @@ router.post("/login", async (req, res) => {
   try {
     const username = req.body.username;
     const a = await User.findOne({username:username})
-    console.log(a)
     if (a.length <= 0) {
       res.json({ message: "Incorrect Username" });
     } else {
@@ -66,6 +66,8 @@ router.post("/login", async (req, res) => {
             email: a.email,
             username: a.username,
             mobile:a.mobile,
+            userid:a.id
+
           },
           "apna_bazaar",
           {
@@ -73,11 +75,12 @@ router.post("/login", async (req, res) => {
           }
         );
         res.cookie("token", token);
+      
         res.redirect("/");
       } else res.json({ message: "Incorrect Password" });
     }
   } catch (e) {
-    console.log(e)
+  
     res.json({ message: "some error occured" });
   }
 });
@@ -87,7 +90,7 @@ router.get('/:id/edit', auth, async(req, res) => {
   try {
     await Shop.findById(req.params.id, (err, foundShop) => {
       if (err){
-        console.log('Error');
+
       } else {
         res.render('edit', {shop: foundShop, currentUser: req.userData.username});
       }
@@ -150,8 +153,7 @@ router.get('/shops/editprofile/:id', async(req, res) => {
       if (err){
         console.log('error!');
       } else {
-        console.log('Found!!!');
-        // console.log(foundUser);
+       
         res.render('editprofile', {user: foundUser, currentUser: req.userData.username});
       }
     });
@@ -204,8 +206,7 @@ router.get('/:id/change', auth, async(req, res) => {
 });
 router.put('/:id/change', upload.single('shop[image]'), async(req, res) => {
   try {
-    console.log('hello');
-    console.log(req.file.path);
+    
     await cloudinary.v2.uploader.upload(req.file.path, {overwrite: true}, (err, result) => {
       console.log('Error:', err);
       console.log('Result:', result);
@@ -230,12 +231,13 @@ router.get('/shops/logout', async(req, res) => {
 
 router.get('/:id', auth, async(req, res) => {
   try {
-    console.log(req.userData.username)
+    
     await Shop.findById(req.params.id, (err, foundShop) => {
+      console.log(foundShop)
       if (err){
         res.redirect('/');
       } else {
-        res.render('show', {shop: foundShop, currentUser: req.userData.username});
+        res.render('show', {shop: foundShop, currentUser: req.userData});
       }
     });
   } catch (e){
