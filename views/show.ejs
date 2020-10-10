@@ -10,12 +10,12 @@
                
             </div>
            
-                        <%console.log(currentUser)%>
+                       
             <%if(shop.userid==(currentUser.id)){%>
    
                 <a class="ui blue basic button"href="/<%=shop._id%>/edit">Edit details</a>
                 <a class="ui blue basic button"href="/<%=shop._id%>/change">Change Photo</a>
-                <form action="/<%=shop._id%>?_method=Delete" method="POST">
+                <form action="/<%=shop._id%>" method="POST">
                     <button class="ui red basic button">Delete</button>
                 </form>      
             <%}else{%>

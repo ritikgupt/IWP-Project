@@ -113,7 +113,7 @@ router.put('/:id', async(req, res) => {
     res.json({message: e});
   }
 });
-router.delete('/:id', auth, async(req, res) => {
+router.post('/:id', auth, async(req, res) => {
   try {
     await Shop.findByIdAndRemove(req.params.id, (err) => {
       if (err){
