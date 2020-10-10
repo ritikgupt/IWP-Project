@@ -99,7 +99,7 @@ router.get('/:id/edit', auth, async(req, res) => {
     res.json({message: e});
   }
 });
-router.put('/:id', async(req, res) => {
+router.post('/:id/edit', async(req, res) => {
   try {
     req.body.shop.body = req.sanitize(req.body.shop.body);
     await Shop.findByIdAndUpdate(req.params.id, req.body.shop, (err, updatedShop) => {
@@ -204,7 +204,7 @@ router.get('/:id/change', auth, async(req, res) => {
     res.json({message: e});
   }
 });
-router.put('/:id/change', upload.single('shop[image]'), async(req, res) => {
+router.post('/:id/change', upload.single('shop[image]'), async(req, res) => {
   try {
     
     await cloudinary.v2.uploader.upload(req.file.path, {overwrite: true}, (err, result) => {
