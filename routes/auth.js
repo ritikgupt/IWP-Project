@@ -233,7 +233,6 @@ router.get('/:id', auth, async(req, res) => {
   try {
     
     await Shop.findById(req.params.id, (err, foundShop) => {
-      console.log(foundShop)
       if (err){
         res.redirect('/');
       } else {

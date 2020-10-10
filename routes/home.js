@@ -11,7 +11,7 @@ router.get('/', auth, async(req, res) => {
       if (err){
         console.log('Error!');
       } else {
-        res.render('home', {shops: shops, currentUser: req.userData.username});
+        res.render('home', {shops: shops, currentUser: req.userData});
       }
     });
   } catch (e) {
