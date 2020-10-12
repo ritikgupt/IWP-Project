@@ -2,6 +2,8 @@ const express = require('express');
 const compression = require('compression');
 const createError = require('http-errors');
 const mongoose = require('mongoose');
+const stripe = require("stripe")(
+  "sk_test_51HahSYBmc2zn0BuX3OEB8S2n2uQRvDBjoJDJPPfFXwCZkuiQCjq5ESj2ow3uhOA1PFqrLPd6ioetaaUrkEmPmipP00NpbBkEUg");
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
 const port = process.env.PORT || 5000;
@@ -11,8 +13,10 @@ const g = require('express-sanitizer');
 const User = require('./models/user');
 const shoppingRoutes = require('./routes/shopping');
 const morgan = require('morgan');
+const paymentRoutes = require("./routes/payment");
 const authRoutes = require('./routes/auth');
 const homeRoutes = require('./routes/home');
+
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -55,6 +59,7 @@ passport.use(new E(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 app.use(authRoutes);
+app.use(paymentRoutes)
 app.use('/shops', shoppingRoutes);
 app.use(homeRoutes);
 app.use(cors({

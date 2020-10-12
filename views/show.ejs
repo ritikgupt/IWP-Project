@@ -10,8 +10,9 @@
                
             </div>
            
-                       
-            <%if(shop.userid==(currentUser.id)){%>
+            <%console.log(shop.id)%>
+            <%console.log(currentUser.userid)%>          
+            <%if(shop.id==(currentUser.userid)){%>
    
                 <a class="ui blue basic button"href="/<%=shop._id%>/edit">Edit details</a>
                 <a class="ui blue basic button"href="/<%=shop._id%>/change">Change Photo</a>
@@ -20,6 +21,7 @@
                 </form>      
             <%}else{%>
                 <a class="ui blue basic button" href="/<%=shop._id%>/contact">Seller Details</a>
+                <a class="ui green basic button" href="/item/payment">Pay Now</a>
                 <%}%>
         </div>
 </div>
