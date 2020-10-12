@@ -66,8 +66,8 @@ router.post("/login", async (req, res) => {
             email: a.email,
             username: a.username,
             mobile:a.mobile,
-            userid:a.id
-
+            userid:a.id,
+            address:a.address
           },
           "apna_bazaar",
           {
@@ -132,7 +132,7 @@ router.get('/shops/profile/:id', auth, async(req, res) => {
       if (err)
         console.log('Error!');
       else
-        res.render('profile', {currentUser: req.userData.username});
+        res.render('profile', {currentUser: req.userData});
     // res.redirect("/shops/editprofile/"+ req.user.id)
     });
   } catch (e){
@@ -147,14 +147,14 @@ router.get('/shops/redirect', (req, res, next) => {
     res.json({message: e});
   }
 });
-router.get('/shops/editprofile/:id', async(req, res) => {
+router.get('/shops/:id/editprofile',auth, async(req, res) => {
   try {
     await User.findById(req.params.id, (err, foundUser) => {
       if (err){
         console.log('error!');
       } else {
        
-        res.render('editprofile', {user: foundUser, currentUser: req.userData.username});
+        res.render('editprofile', {user: foundUser, currentUser: req.userData});
       }
     });
   } catch (e) {
@@ -162,10 +162,12 @@ router.get('/shops/editprofile/:id', async(req, res) => {
   }
 });
 
-router.post('/shops/profile/:id', async(req, res, next) => {
+router.post('/shops/:id/profile', async(req, res, next) => {
   try {
+    console.log(req.body)
     let usr2 = await User.findOne({_id: req.body.id});
-    res.render('profile', {currentUser: usr2});
+    await usr2.updateOne(req.body)
+    res.redirect('/');
   } catch (error){
     next(error);
   }
@@ -177,7 +179,7 @@ router.get('/:id/contact', auth, async(req, res) => {
       if (err){
         console.log('Error');
       } else {
-        res.render('contact', {shop: foundShop, currentUser: req.userData.username});
+        res.render('contact', {shop: foundShop, currentUser: req.userData});
       }
     });
   } catch (e) {
@@ -186,7 +188,7 @@ router.get('/:id/contact', auth, async(req, res) => {
 });
 router.get('/shops/profile/:id/newpassword', auth, async(req, res) => {
   try {
-    res.render('newpassword', {currentUser: req.userData.username});
+    res.render('newpassword', {currentUser: req.userData});
   } catch (e) {
     res.json({message: e});
   }
@@ -197,7 +199,7 @@ router.get('/:id/change', auth, async(req, res) => {
       if (err){
         console.log('Error');
       } else {
-        res.render('change', {shop: foundShop, currentUser: req.userData.username});
+        res.render('change', {shop: foundShop, currentUser: req.userData});
       }
     });
   } catch (e) {
