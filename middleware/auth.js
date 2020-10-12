@@ -6,7 +6,6 @@ const JwtAuth = (req, res, next) => {
     req.userData = decode;
     next();
   } catch (e){
-    console.log(e)
     res.redirect('/login');
   }
 };

@@ -4,11 +4,10 @@ const ShopSchema = new c.Schema({
   image: String,
   body: String,
   id: String,
-  username: String,
-  mobile: Number,
-  email: String,
-  room: String,
-  item: String,
+  user:{
+    type:c.Schema.ObjectId,
+    ref:'User'
+  }
 });
 module.exports = c.model('Shop', ShopSchema);
 

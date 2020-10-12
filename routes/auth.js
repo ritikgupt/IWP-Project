@@ -175,12 +175,15 @@ router.post('/shops/:id/profile', async(req, res, next) => {
 
 router.get('/:id/contact', auth, async(req, res) => {
   try {
-    await Shop.findById(req.params.id, (err, foundShop) => {
+    await Shop.findById(req.params.id, async(err, foundShop) => {
+      await User.findById(foundShop.user,(err,foundUser)=>{
       if (err){
         console.log('Error');
       } else {
-        res.render('contact', {shop: foundShop, currentUser: req.userData});
+        console.log(foundUser)
+        res.render('contact', {user: foundUser, currentUser: req.userData});
       }
+    })
     });
   } catch (e) {
     res.json({message: e});

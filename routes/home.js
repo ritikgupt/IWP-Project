@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Shop = require('../models/shop');
+const User=require('../models/user')
 const multer = require('multer');
 const upload = multer({dest: 'uploads/'});
 const cloudinary = require('../handlers/cloudinary');
@@ -18,17 +19,18 @@ router.get('/', auth, async(req, res) => {
     res.json({message: e});
   }
 });
-router.post('/', upload.single('image'), async(req, res) => {
+router.post('/', upload.single('image'),auth, async(req, res) => {
   try {
+    console.log(req.userData.userid)
+    const user=await User.findOne({_id:req.userData.userid})
+    console.log(user)
     await cloudinary.v2.uploader.upload(req.file.path, {overwrite: true}, (err, result) => {
       Shop.create({
         title: req.body.title,
         image: result.secure_url,
         body: req.body.body,
-        id: req.body.id,
-        username: req.body.username,
-        item: req.body.item,
-        userid:req.body.userid
+        user:user
+        
       });
     });
     res.redirect('/shops/new');

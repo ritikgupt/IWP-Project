@@ -3,6 +3,7 @@ const compression = require('compression');
 const nodemailer=require('nodemailer');
 const createError = require('http-errors');
 const mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 const stripe = require("stripe")(
   "sk_test_51HahSYBmc2zn0BuX3OEB8S2n2uQRvDBjoJDJPPfFXwCZkuiQCjq5ESj2ow3uhOA1PFqrLPd6ioetaaUrkEmPmipP00NpbBkEUg");
 const cors = require('cors');
