@@ -1,5 +1,6 @@
 const express = require('express');
 const compression = require('compression');
+const nodemailer=require('nodemailer');
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 const stripe = require("stripe")(

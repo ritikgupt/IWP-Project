@@ -193,6 +193,13 @@ router.get('/shops/profile/:id/newpassword', auth, async(req, res) => {
     res.json({message: e});
   }
 });
+router.post('/shops/profile/:id/newpassword', auth, async(req, res) => {
+  try {
+    res.render('newpassword', {currentUser: req.userData});
+  } catch (e) {
+    res.json({message: e});
+  }
+});
 router.get('/:id/change', auth, async(req, res) => {
   try {
     await Shop.findById(req.params.id, (err, foundShop) => {
