@@ -9,6 +9,7 @@ const Secret_Key =
 const stripe=require('stripe')(Secret_Key)
 
 router.get('/item/payment',auth,async(req,res)=>{
+    console.log(req.userData)
     await res.render('payment',{
         key:Publishable_Key,currentUser: req.userData
     })
@@ -16,14 +17,16 @@ router.get('/item/payment',auth,async(req,res)=>{
 
 router.post('/item/payment', auth,function(req, res){ 
   
+   console.log(req.userData)
     // Moreover you can take more details from user 
     // like Address, Name, etc from form 
     stripe.customers.create({ 
+        
         email: req.body.stripeEmail, 
         source: req.body.stripeToken, 
-        name: 'Ritik Gupta', 
+        name: req.userData.username, 
         address: { 
-            line1: '3JMC8,Malviya Nagar,Jaipur', 
+            line1: req.userData.address, 
             postal_code: '302017', 
             city: 'Jaipur', 
             state: 'Rajasthan', 
@@ -34,7 +37,7 @@ router.post('/item/payment', auth,function(req, res){
   
         return stripe.charges.create({ 
             amount: 2500,     // Charing Rs 25 
-            description: 'Books', 
+            description: 'Purchased Items', 
             currency: 'INR', 
             customer: customer.id 
         }); 
