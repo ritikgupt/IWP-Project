@@ -4,12 +4,12 @@
 <form class="ui form" action="/<%=shop._id%>/edit" method="POST">
 <div class="field">
     <label>Title</label>
-    <input type="text" name="shop[title]" value="<%=shop.title%>">
+    <input type="text" name="shop[title]" value="<%=shop.title%>" required>
     </div>
 <div class="ui form">
     <div class="field">
         <label>Shop Content</label>
-        <textarea name="shop[body]"><%=shop.body%></textarea>
+        <textarea name="shop[body]"><%=shop.body%></textarea required>
     </div>
     </div>
     <button class="ui button" type="submit">Submit</button>

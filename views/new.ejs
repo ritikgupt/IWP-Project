@@ -27,11 +27,11 @@
             </div>
         <div class="field">
                 <label>Posted By</label>
-                <input type="text" name="username" value="<%=currentUser.username%>">
+                <input type="text" name="username" value="<%=currentUser.username%>" disabled>
             </div>
             <div class="field">
                     <label>Upload Image</label>
-                    <input type="file" name="image">
+                    <input type="file" name="image" required>
                 </div>    
         <div class="field">
             <input type="text" id="ac" name="id" value="<%=currentUser.userid%>">
