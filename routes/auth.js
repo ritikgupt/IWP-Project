@@ -34,14 +34,19 @@ router.post('/sign', async(req, res) => {
       bcrypt.hash(req.body.password, salt, async (err, hash) =>{
         req.body.password=hash
        
-        await User.create(req.body)
+        await User.create(req.body,async(err,ans)=>{
+          if(err){
+            res.json(err)
+            console.log(err)
+          }
+          else{
+            res.redirect('/login');
+          }
+        })
         
       });
     });
-    return res.redirect('/login')
-    
   } catch (e){
-   
     res.json({message: e});
   }
 });

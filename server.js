@@ -55,11 +55,8 @@ app.use(require('cookie-session')({
   resave: false,
   saveUninitialized: false,
 }));
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new E(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+
+
 app.use(authRoutes);
 app.use(paymentRoutes)
 app.use('/shops', shoppingRoutes);
