@@ -10,4 +10,4 @@ RUN npm install
 
 ENTRYPOINT ["node"]
 
-CMD ["app.js"] 
+CMD ["server.js"] 
