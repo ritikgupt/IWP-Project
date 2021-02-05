@@ -10,7 +10,7 @@ jobs:
       - name: Deploy
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          USER: root
+          USER: ritik
           IP: 34.123.168.248
           APP_NAME: ${{ github.event.repository.name }}
         run: |
@@ -22,4 +22,4 @@ jobs:
           chmod 644 ~/.ssh/known_hosts
           rsync -auz ./ $USER@$IP:./$APP_NAME
           ssh $USER@$IP "cd $APP_NAME && \
-          docker-compose up --build -d"
+          sudo docker-compose up --build -d"
