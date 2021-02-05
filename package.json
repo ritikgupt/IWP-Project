@@ -4,6 +4,7 @@
   "description": "* Ritik Gupta(18BCE0154)\r  * Ayush Sharma(18BCE0172)\r  * Shashank Rajoria(18BCE2231)",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
