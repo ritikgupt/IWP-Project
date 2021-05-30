@@ -1,11 +1,10 @@
+require("../db/mongoose")
 const express=require('express');
 const router=express.Router();
 const auth = require('../middleware/auth');
 
-const Publishable_Key =
-  "pk_test_51HahSYBmc2zn0BuXeA5SzkvM6skCHNWZkO5BRvufpNxoDDrOXJL57R3MRMrkRRt3CrQUEBQboDGONeagKzpwg2cg00ekPZLNJ5";
-const Secret_Key =
-  "sk_test_51HahSYBmc2zn0BuX3OEB8S2n2uQRvDBjoJDJPPfFXwCZkuiQCjq5ESj2ow3uhOA1PFqrLPd6ioetaaUrkEmPmipP00NpbBkEUg";
+const Publishable_Key = process.env.Publishable_Key
+const Secret_Key = process.env.Secret_Key
 const stripe=require('stripe')(Secret_Key)
 
 router.get('/item/payment',auth,async(req,res)=>{

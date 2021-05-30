@@ -1,3 +1,4 @@
+require("../db/mongoose")
 const express = require('express');
 const router = express.Router();
 const Shop = require('../models/shop');
@@ -17,7 +18,6 @@ router.get('/shops/new', auth, async(req, res) => {
   try {
     res.render('new', {currentUser: req.userData});
   } catch (e){
-    
     res.json({message: e});
   }
 });
