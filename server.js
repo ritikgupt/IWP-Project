@@ -2,13 +2,11 @@ const express = require('express');
 const compression = require('compression');
 const nodemailer=require('nodemailer');
 const createError = require('http-errors');
-const mongoose = require('mongoose');
-mongoose.set('useFindAndModify', false);
-const stripe = require("stripe")(
-  "sk_test_51HahSYBmc2zn0BuX3OEB8S2n2uQRvDBjoJDJPPfFXwCZkuiQCjq5ESj2ow3uhOA1PFqrLPd6ioetaaUrkEmPmipP00NpbBkEUg");
+
+
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 
 const shoppingRoutes = require('./routes/shopping');
 const morgan = require('morgan');
@@ -25,13 +23,13 @@ const winston = require('./config/winston');
 app.use(morgan('combined', { stream: winston.stream }));
 require('dotenv').config();
 
+
 app.use('/uploads', express.static('uploads'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-mongoose.set('useCreateIndex', true);
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
   // the above function will help to add currentUser constiable to routes
