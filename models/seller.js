@@ -1,10 +1,30 @@
-const c = require('mongoose');
-const SellerSchema = new c.Schema({
-  email: String,
-  mobile: Number,
-  id: String,
-  username: String,
-  room: String,
+const mongoose = require('mongoose');
+const Seller = new mongoose.model('Seller',{
+  email: {
+    type:String,
+    required:true,
+    trim:true,
+    maxlength:100,
+    unique:true
+  },
+  mobile: {
+    required:true,
+    type:String,
+    trim:true,
+  },
+  username: {
+    required:true,
+    type:String,
+    trim:true,
+    maxlength:100,
+    unique:true
+  },
+  room: {
+    required:true,
+    type:String,
+    trim:true,
+  }
 });
-module.exports = c.model('Seller', SellerSchema);
+
+module.exports = Seller
 
