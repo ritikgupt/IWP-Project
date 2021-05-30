@@ -8,8 +8,6 @@ COPY . /app
 
 RUN npm install
 
-EXPOSE 5000
-
 ENTRYPOINT ["node"]
 
-CMD ["app.js"]
+CMD ["server.js"] 
