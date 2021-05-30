@@ -28,13 +28,6 @@ const winston = require('./config/winston');
 app.use(morgan('combined', { stream: winston.stream }));
 require('dotenv').config();
 
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
-);
-var connection = mongoose.connection;
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully');
-});
 app.use('/uploads', express.static('uploads'));
 
 app.use(express.urlencoded({ extended: true }));
