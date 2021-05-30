@@ -8,11 +8,8 @@ const stripe = require("stripe")(
   "sk_test_51HahSYBmc2zn0BuX3OEB8S2n2uQRvDBjoJDJPPfFXwCZkuiQCjq5ESj2ow3uhOA1PFqrLPd6ioetaaUrkEmPmipP00NpbBkEUg");
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
-const port = process.env.PORT || 5000;
-const passport = require('passport');
-const E = require('passport-local');
-const g = require('express-sanitizer');
-const User = require('./models/user');
+const port = process.env.PORT;
+
 const shoppingRoutes = require('./routes/shopping');
 const morgan = require('morgan');
 const paymentRoutes = require("./routes/payment");
@@ -35,7 +32,6 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 mongoose.set('useCreateIndex', true);
-app.use(g());
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
   // the above function will help to add currentUser constiable to routes

@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
             userid:a.id,
             address:a.address
           },
-          "apna_bazaar",
+          process.env.JWT_SECRET,
           {
            
           }
